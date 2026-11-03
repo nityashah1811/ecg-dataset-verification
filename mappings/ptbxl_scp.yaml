@@ -1,0 +1,306 @@
+# PTB-XL SCP-ECG statements -> ECGFounder output classes (curated).
+#
+# Semantics
+#   model_classes : ECGFounder classes (names exactly as in tasks.txt) whose presence supports the
+#                   dataset label. The label score is the MAX sigmoid probability over this set
+#                   ("any-of"), so a sub-type or superset statement in the MUSE vocabulary supports
+#                   the label (e.g. sinus bradycardia supports "sinus rhythm").
+#   quality       : exact       - same clinical concept; used for all decisions by default.
+#                   approximate - overlapping concept / different criteria; scored and reported,
+#                                 but treated as NOT COMPARABLE unless the config enables it.
+#   covered_by    : other dataset labels whose presence already expresses this finding; a
+#                   "potentially missing" flag is not raised for this label if one is present.
+#   exclusive_with: suggesting this label is suppressed (status "uncertain") while any listed
+#                   label is present ("*" = any label not in compatible_with; glob patterns ok).
+#   suggest       : whether the model may propose ADDING this label (default true).
+#   unsupported   : reason why no ECGFounder class can verify this label (never a mismatch).
+#
+# Deliberate deviations from the official csv/ptbxl_label.csv (ECGFounder repo), which maps:
+#   ABQRS -> LOW VOLTAGE QRS + WITH QRS WIDENING, IRBBB -> RIGHT BUNDLE BRANCH BLOCK,
+#   SVTAC/PSVT -> VENTRICULAR TACHYCARDIA, ISC_ -> LEFT VENTRICULAR HYPERTROPHY,
+#   LNGQT -> QT HAS LENGTHENED (a serial-comparison statement), PACE -> ELECTRONIC ATRIAL PACEMAKER,
+#   and ISCAL -> ANTEROLATERAL LEADS. These are not clinically equivalent and are not used here.
+#   See docs/METHODS.md.
+name: ptbxl_scp
+vocabulary: PTB-XL v1.0.3 SCP-ECG statements (scp_statements.csv) + heart_axis column
+labels:
+  # ---------------- rhythm ----------------
+  SR:
+    description: sinus rhythm
+    model_classes: [SINUS RHYTHM, NORMAL SINUS RHYTHM, SINUS BRADYCARDIA, MARKED SINUS BRADYCARDIA,
+                    SINUS TACHYCARDIA, WITH SINUS ARRHYTHMIA, WITH MARKED SINUS ARRHYTHMIA]
+    quality: exact
+    covered_by: [SBRAD, STACH, SARRH]
+  SBRAD:
+    description: sinus bradycardia
+    model_classes: [SINUS BRADYCARDIA, MARKED SINUS BRADYCARDIA]
+    quality: exact
+  STACH:
+    description: sinus tachycardia
+    model_classes: [SINUS TACHYCARDIA]
+    quality: exact
+  SARRH:
+    description: sinus arrhythmia
+    model_classes: [WITH SINUS ARRHYTHMIA, WITH MARKED SINUS ARRHYTHMIA]
+    quality: exact
+  AFIB:
+    description: atrial fibrillation
+    model_classes: [ATRIAL FIBRILLATION]
+    quality: exact
+  AFLT:
+    description: atrial flutter
+    model_classes: [ATRIAL FLUTTER]
+    quality: exact
+  SVTAC:
+    description: supraventricular tachycardia
+    model_classes: [SUPRAVENTRICULAR TACHYCARDIA]
+    quality: exact
+    covered_by: [PSVT]
+  PSVT:
+    description: paroxysmal supraventricular tachycardia
+    model_classes: [SUPRAVENTRICULAR TACHYCARDIA]
+    quality: approximate   # paroxysmal onset is not observable from the label space
+    covered_by: [SVTAC]
+  PACE:
+    description: normal functioning artificial pacemaker
+    model_classes: [ELECTRONIC ATRIAL PACEMAKER, ELECTRONIC VENTRICULAR PACEMAKER, VENTRICULAR-PACED RHYTHM,
+                    ATRIAL-PACED RHYTHM, ATRIAL-SENSED VENTRICULAR-PACED RHYTHM,
+                    AV SEQUENTIAL OR DUAL CHAMBER ELECTRONIC PACEMAKER, AV DUAL-PACED RHYTHM,
+                    VENTRICULAR-PACED COMPLEXES, ELECTRONIC DEMAND PACING, BIVENTRICULAR PACEMAKER DETECTED,
+                    ATRIAL-PACED COMPLEXES, AV DUAL-PACED COMPLEXES]
+    quality: exact
+  SVARR:
+    description: supraventricular arrhythmia
+    model_classes: [PREMATURE SUPRAVENTRICULAR COMPLEXES, SUPRAVENTRICULAR COMPLEXES, PREMATURE ATRIAL COMPLEXES]
+    quality: approximate
+  BIGU:
+    description: bigeminal pattern (SV or ventricular)
+    model_classes: [IN A PATTERN OF BIGEMINY]
+    quality: exact
+  TRIGU:
+    unsupported: no trigeminy class in ECGFounder
+  # ---------------- conduction ----------------
+  1AVB:
+    description: first degree AV block
+    model_classes: [WITH 1ST DEGREE AV BLOCK, WITH PROLONGED AV CONDUCTION]
+    quality: exact
+    covered_by: [LPR]
+  LPR:
+    description: prolonged PR interval
+    model_classes: [WITH 1ST DEGREE AV BLOCK, WITH PROLONGED AV CONDUCTION]
+    quality: approximate
+    covered_by: [1AVB]
+  2AVB:
+    description: second degree AV block
+    model_classes: [WITH 2ND DEGREE AV BLOCK MOBITZ I, WITH 2:1 AV CONDUCTION, WITH VARIABLE AV BLOCK]
+    quality: approximate   # ECGFounder has no generic / Mobitz II AV-block class
+  3AVB:
+    description: third degree AV block
+    model_classes: [WITH COMPLETE HEART BLOCK]
+    quality: exact
+  CRBBB:
+    description: complete right bundle branch block
+    model_classes: [RIGHT BUNDLE BRANCH BLOCK, RBBB AND LEFT ANTERIOR FASCICULAR BLOCK,
+                    RBBB AND LEFT POSTERIOR FASCICULAR BLOCK, BIFASCICULAR BLOCK]
+    quality: exact
+  IRBBB:
+    description: incomplete right bundle branch block
+    model_classes: [INCOMPLETE RIGHT BUNDLE BRANCH BLOCK]
+    quality: exact
+  CLBBB:
+    description: complete left bundle branch block
+    model_classes: [LEFT BUNDLE BRANCH BLOCK]
+    quality: exact
+  ILBBB:
+    description: incomplete left bundle branch block
+    model_classes: [INCOMPLETE LEFT BUNDLE BRANCH BLOCK]
+    quality: exact
+  LAFB:
+    description: left anterior fascicular block
+    model_classes: [LEFT ANTERIOR FASCICULAR BLOCK, RBBB AND LEFT ANTERIOR FASCICULAR BLOCK]
+    quality: exact
+  LPFB:
+    description: left posterior fascicular block
+    model_classes: [LEFT POSTERIOR FASCICULAR BLOCK, RBBB AND LEFT POSTERIOR FASCICULAR BLOCK]
+    quality: exact
+  IVCD:
+    description: non-specific intraventricular conduction disturbance
+    model_classes: [NONSPECIFIC INTRAVENTRICULAR CONDUCTION DELAY, NONSPECIFIC INTRAVENTRICULAR BLOCK]
+    quality: exact
+  WPW:
+    description: Wolff-Parkinson-White
+    model_classes: [WOLFF-PARKINSON-WHITE]
+    quality: exact
+  # ---------------- premature complexes ----------------
+  PVC:
+    description: ventricular premature complex
+    model_classes: [PREMATURE VENTRICULAR COMPLEXES, WITH PREMATURE VENTRICULAR OR ABERRANTLY CONDUCTED COMPLEXES,
+                    PREMATURE VENTRICULAR AND FUSION COMPLEXES]
+    quality: exact
+  PAC:
+    description: atrial premature complex
+    model_classes: [PREMATURE ATRIAL COMPLEXES, PREMATURE SUPRAVENTRICULAR COMPLEXES]
+    quality: exact
+  PRC(S):
+    description: premature complex(es)
+    model_classes: [PREMATURE ECTOPIC COMPLEXES, PREMATURE ATRIAL COMPLEXES, PREMATURE VENTRICULAR COMPLEXES,
+                    PREMATURE SUPRAVENTRICULAR COMPLEXES]
+    quality: approximate
+    covered_by: [PVC, PAC]
+  # ---------------- hypertrophy / enlargement / voltage ----------------
+  LVH:
+    description: left ventricular hypertrophy
+    model_classes: [LEFT VENTRICULAR HYPERTROPHY, VOLTAGE CRITERIA FOR LEFT VENTRICULAR HYPERTROPHY]
+    quality: exact
+    covered_by: [VCLVH]
+  VCLVH:
+    description: voltage criteria (QRS) for LVH
+    model_classes: [VOLTAGE CRITERIA FOR LEFT VENTRICULAR HYPERTROPHY, LEFT VENTRICULAR HYPERTROPHY]
+    quality: exact
+    covered_by: [LVH]
+  RVH:
+    description: right ventricular hypertrophy
+    model_classes: [RIGHT VENTRICULAR HYPERTROPHY, BIVENTRICULAR HYPERTROPHY]
+    quality: exact
+  SEHYP:
+    unsupported: no septal hypertrophy class in ECGFounder
+  LAO/LAE:
+    description: left atrial overload/enlargement
+    model_classes: [LEFT ATRIAL ENLARGEMENT, BIATRIAL ENLARGEMENT]
+    quality: exact
+  RAO/RAE:
+    description: right atrial overload/enlargement
+    model_classes: [RIGHT ATRIAL ENLARGEMENT, BIATRIAL ENLARGEMENT]
+    quality: exact
+  LVOLT:
+    description: low QRS voltages
+    model_classes: [LOW VOLTAGE QRS]
+    quality: exact
+  HVOLT:
+    unsupported: high QRS voltage has no direct class (LVH voltage criteria is a different concept)
+  # ---------------- myocardial infarction ----------------
+  IMI:
+    description: inferior myocardial infarction
+    model_classes: [INFERIOR INFARCT, INFERIOR-POSTERIOR INFARCT]
+    quality: exact
+    covered_by: [ILMI, IPLMI, IPMI]
+  ASMI:
+    description: anteroseptal myocardial infarction
+    model_classes: [ANTEROSEPTAL INFARCT, SEPTAL INFARCT]
+    quality: exact
+  AMI:
+    description: anterior myocardial infarction
+    model_classes: [ANTERIOR INFARCT, ANTEROSEPTAL INFARCT, ANTEROLATERAL INFARCT]
+    quality: exact
+    covered_by: [ASMI, ALMI]
+  ALMI:
+    description: anterolateral myocardial infarction
+    model_classes: [ANTEROLATERAL INFARCT]
+    quality: exact
+  LMI:
+    description: lateral myocardial infarction
+    model_classes: [LATERAL INFARCT, ANTEROLATERAL INFARCT]
+    quality: exact
+    covered_by: [ALMI, ILMI, IPLMI]
+  ILMI:
+    description: inferolateral myocardial infarction
+    model_classes: [INFERIOR INFARCT, LATERAL INFARCT]
+    quality: approximate   # needs both territories; any-of scoring is lenient
+  IPLMI:
+    description: inferoposterolateral myocardial infarction
+    model_classes: [INFERIOR-POSTERIOR INFARCT]
+    quality: approximate
+  IPMI:
+    description: inferoposterior myocardial infarction
+    model_classes: [INFERIOR-POSTERIOR INFARCT]
+    quality: exact
+    covered_by: [IPLMI]
+  PMI:
+    description: posterior myocardial infarction
+    model_classes: [POSTERIOR INFARCT, INFERIOR-POSTERIOR INFARCT]
+    quality: exact
+    covered_by: [IPMI, IPLMI]
+  # ---------------- QT ----------------
+  LNGQT:
+    description: long QT interval
+    model_classes: [PROLONGED QT]
+    quality: exact
+  # ---------------- ST-T (descriptive; criteria differ between vocabularies) ----------------
+  NST_:
+    description: non-specific ST changes
+    model_classes: [NONSPECIFIC ST ABNORMALITY, NONSPECIFIC ST AND T WAVE ABNORMALITY]
+    quality: approximate
+  NT_:
+    description: non-specific T-wave changes
+    model_classes: [NONSPECIFIC T WAVE ABNORMALITY, NONSPECIFIC ST AND T WAVE ABNORMALITY]
+    quality: approximate
+  NDT:
+    description: non-diagnostic T abnormalities
+    model_classes: [NONSPECIFIC T WAVE ABNORMALITY, NONSPECIFIC ST AND T WAVE ABNORMALITY]
+    quality: approximate
+  STE_:
+    description: non-specific ST elevation
+    model_classes: [EARLY REPOLARIZATION, ACUTE MI / STEMI, ANTERIOR INJURY PATTERN, LATERAL INJURY PATTERN,
+                    INFERIOR INJURY PATTERN, ANTEROLATERAL INJURY PATTERN, INFEROLATERAL INJURY PATTERN,
+                    ACUTE PERICARDITIS]
+    quality: approximate
+    suggest: false
+  STD_: {unsupported: no ST-depression class for a single ECG (only serial-comparison statements)}
+  INVT: {unsupported: only serial-comparison T-inversion statements exist in ECGFounder}
+  LOWT: {unsupported: no low-amplitude T-wave class}
+  TAB_: {unsupported: generic T-wave abnormality spans several ECGFounder classes}
+  ISC_: {unsupported: no ischemia class in ECGFounder}
+  ISCAL: {unsupported: no ischemia class in ECGFounder}
+  ISCIN: {unsupported: no ischemia class in ECGFounder}
+  ISCIL: {unsupported: no ischemia class in ECGFounder}
+  ISCAS: {unsupported: no ischemia class in ECGFounder}
+  ISCLA: {unsupported: no ischemia class in ECGFounder}
+  ISCAN: {unsupported: no ischemia class in ECGFounder}
+  INJAS: {unsupported: subendocardial injury; ECGFounder injury patterns denote ST elevation}
+  INJAL: {unsupported: subendocardial injury; ECGFounder injury patterns denote ST elevation}
+  INJIN: {unsupported: subendocardial injury; ECGFounder injury patterns denote ST elevation}
+  INJLA: {unsupported: subendocardial injury; ECGFounder injury patterns denote ST elevation}
+  INJIL: {unsupported: subendocardial injury; ECGFounder injury patterns denote ST elevation}
+  ANEUR: {unsupported: no ventricular aneurysm class}
+  EL: {unsupported: no electrolyte / drug class}
+  DIG: {unsupported: "OR DIGITALIS EFFECT is only a sentence fragment in ECGFounder"}
+  ABQRS: {unsupported: abnormal QRS is non-specific}
+  QWAVE: {unsupported: Q waves present is non-specific}
+  # ---------------- global ----------------
+  NORM:
+    description: normal ECG
+    model_classes: [NORMAL ECG, otherwise normal ecg]
+    quality: exact
+    exclusive_with: ["*"]
+    compatible_with: [SR, SARRH, SBRAD, STACH, "AXIS_*"]
+  # ---------------- heart axis (PTB-XL heart_axis column) ----------------
+  AXIS_LAD:
+    description: left axis deviation
+    model_classes: [LEFT AXIS DEVIATION, ABNORMAL LEFT AXIS DEVIATION]
+    quality: approximate   # axis cut-offs differ between PTB-XL and MUSE
+    covered_by: [AXIS_ALAD]
+  AXIS_ALAD:
+    description: abnormal left axis deviation
+    model_classes: [LEFT AXIS DEVIATION, ABNORMAL LEFT AXIS DEVIATION]
+    quality: approximate
+    covered_by: [AXIS_LAD]
+  AXIS_RAD:
+    description: right axis deviation
+    model_classes: [RIGHT AXIS DEVIATION, ABNORMAL RIGHT AXIS DEVIATION, RIGHT SUPERIOR AXIS DEVIATION]
+    quality: approximate
+    covered_by: [AXIS_ARAD]
+  AXIS_ARAD:
+    description: abnormal right axis deviation
+    model_classes: [RIGHT AXIS DEVIATION, ABNORMAL RIGHT AXIS DEVIATION, RIGHT SUPERIOR AXIS DEVIATION]
+    quality: approximate
+    covered_by: [AXIS_RAD]
+  AXIS_AXL:
+    description: leftward axis
+    model_classes: [LEFTWARD AXIS]
+    quality: approximate
+  AXIS_AXR:
+    description: rightward axis
+    model_classes: [RIGHTWARD AXIS]
+    quality: approximate
+  AXIS_MID: {unsupported: normal axis has no positive ECGFounder class}
+  AXIS_SAG: {unsupported: sagittal axis has no ECGFounder class}

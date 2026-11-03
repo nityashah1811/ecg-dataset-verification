@@ -1,0 +1,7 @@
+support_bf,support_posterior,consistent_pct,default
+2.0,0.5,82.2,False
+2.0,not used,68.8,False
+3.0,0.5,78.9,True
+3.0,not used,58.4,False
+10.0,0.5,71.6,False
+10.0,not used,28.7,False

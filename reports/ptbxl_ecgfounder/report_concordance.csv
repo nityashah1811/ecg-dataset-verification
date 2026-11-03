@@ -1,0 +1,14 @@
+label,flag,n_flagged,flagged_report_supports_flag,flagged_rate,n_control,control_rate,fisher_p,examples
+LAFB,potentially_missing,43,11,0.256,20133,0.004,4.88e-17,"177, 1237, 1627, 2792, 4221"
+LAFB,potentially_incorrect,1,1,1.0,1622,0.5105,1.0,16757
+CLBBB,potentially_incorrect,3,3,1.0,533,0.1445,0.00322,"287, 635, 8092"
+AFIB,potentially_missing,37,5,0.135,20248,0.001,9.75e-10,"382, 423, 757, 766, 1456"
+AFIB,potentially_incorrect,15,0,0.0,1499,0.008,1.0,"2251, 2549, 5520, 6395, 15180"
+PVC,potentially_missing,38,29,0.763,20618,0.0277,1.76e-37,"746, 1362, 1485, 1670, 2184"
+PVC,potentially_incorrect,5,4,0.8,1138,0.1467,0.00215,"7163, 7936, 17602, 20750, 21734"
+PACE,potentially_missing,9,0,0.0,21496,0.0003,1.0,"6167, 8370, 10869, 11686, 11837"
+PACE,potentially_incorrect,5,0,0.0,289,0.0277,1.0,"1596, 1717, 4054, 8319, 12027"
+WPW,potentially_missing,1,0,0.0,21719,0.0005,1.0,19180
+WPW,potentially_incorrect,2,2,1.0,77,0.5584,0.503,"7046, 7399"
+ASMI,potentially_missing,80,40,0.5,19362,0.0175,2.35e-47,"681, 716, 1541, 1853, 2101"
+ASMI,potentially_incorrect,1,1,1.0,2356,0.5183,1.0,19338

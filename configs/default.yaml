@@ -1,0 +1,55 @@
+# Default configuration (identical to ecg_verify/config.py DEFAULTS). Copy and edit.
+dataset:
+  format: auto
+  mapping: null
+  absence_semantics: null
+  options: {}
+  limit: null
+model:
+  checkpoint: checkpoints/12_lead_ECGFounder.pth
+  n_leads: 12
+  device: auto
+  batch_size: 64
+  num_workers: 2
+  deterministic: true
+  seed: 0
+preprocessing:
+  filter: official
+  resample_method: polyphase
+  min_duration_s: 9.5
+  pad_short: true
+  long_record_policy: windows
+  window_aggregation: mean
+  max_windows: 6
+  max_nan_fraction: 0.05
+  max_flat_leads: 2
+verification:
+  comparable_qualities:
+  - exact
+  calibration:
+    method: platt
+    n_folds: 5
+    min_positives: 20
+    min_negatives: 20
+  calibrated_thresholds:
+    support_bayes_factor: 3.0
+    support_posterior: 0.5
+    contradict_bayes_factor: 0.05
+    missing: 0.95
+  uncalibrated_thresholds:
+    support: 0.5
+    contradict: 0.02
+    missing: 0.98
+  threshold_overrides: {}
+  severity_bins:
+    high: 0.99
+    medium: 0.97
+  native_report_threshold: 0.5
+suggestions:
+  propose_additions: true
+  propose_removals: true
+  qualities:
+  - exact
+output:
+  plots: true
+  top_labels_in_plots: 24

@@ -1,0 +1,30 @@
+# CODE / CODE-15% binary abnormality columns -> ECGFounder classes.
+# See ptbxl_scp.yaml for field semantics.
+name: code15
+vocabulary: CODE-15% exams.csv columns (1dAVb, RBBB, LBBB, SB, ST, AF)
+labels:
+  1dAVb:
+    description: first degree AV block
+    model_classes: [WITH 1ST DEGREE AV BLOCK, WITH PROLONGED AV CONDUCTION]
+    quality: exact
+  RBBB:
+    description: right bundle branch block
+    model_classes: [RIGHT BUNDLE BRANCH BLOCK, RBBB AND LEFT ANTERIOR FASCICULAR BLOCK,
+                    RBBB AND LEFT POSTERIOR FASCICULAR BLOCK, BIFASCICULAR BLOCK]
+    quality: exact
+  LBBB:
+    description: left bundle branch block
+    model_classes: [LEFT BUNDLE BRANCH BLOCK]
+    quality: exact
+  SB:
+    description: sinus bradycardia
+    model_classes: [SINUS BRADYCARDIA, MARKED SINUS BRADYCARDIA]
+    quality: exact
+  ST:
+    description: sinus tachycardia
+    model_classes: [SINUS TACHYCARDIA]
+    quality: exact
+  AF:
+    description: atrial fibrillation
+    model_classes: [ATRIAL FIBRILLATION]
+    quality: exact

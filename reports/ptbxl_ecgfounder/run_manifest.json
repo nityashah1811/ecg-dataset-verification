@@ -1,0 +1,20 @@
+{
+  "tool": "ecg_verify",
+  "version": "0.1.0",
+  "started_utc": "2026-10-25T20:11:09.947127+00:00",
+  "runtime_s": 65.7,
+  "dataset_root": "<PTB-XL v1.0.3 root>",
+  "dataset_format": "ptbxl",
+  "dataset_overlap_with_ecgfounder_training": "PTB-XL (Physikalisch-Technische Bundesanstalt, Berlin; Schiller devices, 1989-1996) is not part of ECGFounder's pretraining data (Harvard-Emory ECG Database, MGH + Emory). The official repository uses PTB-XL as an external validation set for the 150-class head (ptbxl_eval.py, csv/ptbxl_label.csv) and the paper uses it for downstream experiments. Released 150-class weights are therefore not expected to have been trained on these labels, but thresholds published by the authors were tuned on PTB-XL and are not reused.",
+  "label_mapping": "ptbxl_scp",
+  "absence_semantics": "unknown",
+  "checkpoint": "checkpoints/12_lead_ECGFounder.pth",
+  "checkpoint_sha256": "ee199f3781f4ae1f732973267f003da0a759ea12bddb0dd28a77faa60aca7997",
+  "device": "cpu",
+  "inference_fingerprint": "80a3b204405ef47a",
+  "config_fingerprint": "e1bb11bbfdd0503c",
+  "python": "3.13.16",
+  "torch": "2.14.1+cu130",
+  "numpy": "2.5.3",
+  "platform": "Linux-6.18.44-fc-v153-x86_64-with-glibc2.39"
+}

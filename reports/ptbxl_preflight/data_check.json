@@ -1,0 +1,14 @@
+{
+  "dataset_format": "ptbxl",
+  "label_mapping": "ptbxl_scp",
+  "records": 21799,
+  "compatible": 21799,
+  "incompatible": 0,
+  "error_types": {},
+  "records_with_warnings": 1,
+  "label_instances_by_mapping_status": {
+    "approximate": 9758,
+    "exact": 47657,
+    "unsupported": 16923
+  }
+}

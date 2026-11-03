@@ -1,0 +1,26 @@
+{
+ "ours_flags_total": 439,
+ "ours_flags_on_keyword_labels": 240,
+ "ours_flags_on_labels_without_keyword_rule": 199,
+ "ours_missing_also_text": 85,
+ "text_missing_total": 2125,
+ "ours_missing_also_12sl": 207,
+ "ours_incorrect_also_12sl_absent": 88,
+ "jaccard_missing": {
+  "ours": 1.0,
+  "raw": 0.058,
+  "posterior": 1.0,
+  "cl_probe": 0.038,
+  "gesl": 0.019,
+  "text": 0.036
+ },
+ "jaccard_incorrect": {
+  "ours": 1.0,
+  "raw": 0.01,
+  "posterior": 0.025,
+  "cl_probe": 0.015,
+  "gesl": 0.007,
+  "text": 0.004
+ },
+ "probe_auroc_median": 0.9467283268680896
+}

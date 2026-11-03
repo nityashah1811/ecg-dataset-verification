@@ -1,0 +1,130 @@
+# SNOMED-CT codes used in the PhysioNet/CinC Challenge 2020/2021 headers ("# Dx:") ->
+# ECGFounder classes. Only codes whose meaning is unambiguous are mapped; any code not listed
+# here is reported as "not comparable (unmapped)". Cross-check codes against the challenge's
+# dx_mapping_scored.csv / dx_mapping_unscored.csv before publishing results.
+# See ptbxl_scp.yaml for field semantics.
+name: snomed_physionet2021
+vocabulary: SNOMED-CT (PhysioNet/CinC Challenge 2020/2021)
+labels:
+  "426783006":
+    description: sinus rhythm (SNR)
+    model_classes: [SINUS RHYTHM, NORMAL SINUS RHYTHM, SINUS BRADYCARDIA, MARKED SINUS BRADYCARDIA,
+                    SINUS TACHYCARDIA, WITH SINUS ARRHYTHMIA, WITH MARKED SINUS ARRHYTHMIA]
+    quality: exact
+    covered_by: ["426177001", "427084000", "427393009"]
+  "426177001":
+    description: sinus bradycardia (SB)
+    model_classes: [SINUS BRADYCARDIA, MARKED SINUS BRADYCARDIA]
+    quality: exact
+  "427084000":
+    description: sinus tachycardia (STach)
+    model_classes: [SINUS TACHYCARDIA]
+    quality: exact
+  "427393009":
+    description: sinus arrhythmia (SA)
+    model_classes: [WITH SINUS ARRHYTHMIA, WITH MARKED SINUS ARRHYTHMIA]
+    quality: exact
+  "164889003":
+    description: atrial fibrillation (AF)
+    model_classes: [ATRIAL FIBRILLATION]
+    quality: exact
+  "164890007":
+    description: atrial flutter (AFL)
+    model_classes: [ATRIAL FLUTTER]
+    quality: exact
+  "270492004":
+    description: 1st degree AV block (IAVB)
+    model_classes: [WITH 1ST DEGREE AV BLOCK, WITH PROLONGED AV CONDUCTION]
+    quality: exact
+    covered_by: ["164947007"]
+  "164947007":
+    description: prolonged PR interval (LPR)
+    model_classes: [WITH 1ST DEGREE AV BLOCK, WITH PROLONGED AV CONDUCTION]
+    quality: approximate
+    covered_by: ["270492004"]
+  "59118001":
+    description: right bundle branch block (RBBB)
+    model_classes: [RIGHT BUNDLE BRANCH BLOCK, RBBB AND LEFT ANTERIOR FASCICULAR BLOCK,
+                    RBBB AND LEFT POSTERIOR FASCICULAR BLOCK, BIFASCICULAR BLOCK]
+    quality: exact
+    covered_by: ["713427006"]
+  "713427006":
+    description: complete right bundle branch block (CRBBB)
+    model_classes: [RIGHT BUNDLE BRANCH BLOCK, RBBB AND LEFT ANTERIOR FASCICULAR BLOCK,
+                    RBBB AND LEFT POSTERIOR FASCICULAR BLOCK, BIFASCICULAR BLOCK]
+    quality: exact
+    covered_by: ["59118001"]
+  "713426002":
+    description: incomplete right bundle branch block (IRBBB)
+    model_classes: [INCOMPLETE RIGHT BUNDLE BRANCH BLOCK]
+    quality: exact
+  "164909002":
+    description: left bundle branch block (LBBB)
+    model_classes: [LEFT BUNDLE BRANCH BLOCK]
+    quality: exact
+    covered_by: ["733534002"]
+  "733534002":
+    description: complete left bundle branch block (CLBBB)
+    model_classes: [LEFT BUNDLE BRANCH BLOCK]
+    quality: exact
+    covered_by: ["164909002"]
+  "445118002":
+    description: left anterior fascicular block (LAnFB)
+    model_classes: [LEFT ANTERIOR FASCICULAR BLOCK, RBBB AND LEFT ANTERIOR FASCICULAR BLOCK]
+    quality: exact
+  "698252002":
+    description: nonspecific intraventricular conduction disorder (NSIVCB)
+    model_classes: [NONSPECIFIC INTRAVENTRICULAR CONDUCTION DELAY, NONSPECIFIC INTRAVENTRICULAR BLOCK]
+    quality: exact
+  "39732003":
+    description: left axis deviation (LAD)
+    model_classes: [LEFT AXIS DEVIATION, ABNORMAL LEFT AXIS DEVIATION]
+    quality: approximate
+  "47665007":
+    description: right axis deviation (RAD)
+    model_classes: [RIGHT AXIS DEVIATION, ABNORMAL RIGHT AXIS DEVIATION, RIGHT SUPERIOR AXIS DEVIATION]
+    quality: approximate
+  "251146004":
+    description: low QRS voltages (LQRSV)
+    model_classes: [LOW VOLTAGE QRS]
+    quality: exact
+  "111975006":
+    description: prolonged QT interval (LQT)
+    model_classes: [PROLONGED QT]
+    quality: exact
+  "164873001":
+    description: left ventricular hypertrophy (LVH)
+    model_classes: [LEFT VENTRICULAR HYPERTROPHY, VOLTAGE CRITERIA FOR LEFT VENTRICULAR HYPERTROPHY]
+    quality: exact
+  "10370003":
+    description: pacing rhythm (PR)
+    model_classes: [ELECTRONIC ATRIAL PACEMAKER, ELECTRONIC VENTRICULAR PACEMAKER, VENTRICULAR-PACED RHYTHM,
+                    ATRIAL-PACED RHYTHM, ATRIAL-SENSED VENTRICULAR-PACED RHYTHM,
+                    AV SEQUENTIAL OR DUAL CHAMBER ELECTRONIC PACEMAKER, AV DUAL-PACED RHYTHM,
+                    ELECTRONIC DEMAND PACING, BIVENTRICULAR PACEMAKER DETECTED]
+    quality: exact
+  "284470004":
+    description: premature atrial contraction (PAC)
+    model_classes: [PREMATURE ATRIAL COMPLEXES, PREMATURE SUPRAVENTRICULAR COMPLEXES]
+    quality: exact
+    covered_by: ["63593006"]
+  "63593006":
+    description: supraventricular premature beats (SVPB)
+    model_classes: [PREMATURE SUPRAVENTRICULAR COMPLEXES, PREMATURE ATRIAL COMPLEXES]
+    quality: exact
+    covered_by: ["284470004"]
+  "427172004":
+    description: premature ventricular contractions (PVC)
+    model_classes: [PREMATURE VENTRICULAR COMPLEXES, WITH PREMATURE VENTRICULAR OR ABERRANTLY CONDUCTED COMPLEXES,
+                    PREMATURE VENTRICULAR AND FUSION COMPLEXES]
+    quality: exact
+    covered_by: ["17338001"]
+  "17338001":
+    description: ventricular premature beats (VPB)
+    model_classes: [PREMATURE VENTRICULAR COMPLEXES, WITH PREMATURE VENTRICULAR OR ABERRANTLY CONDUCTED COMPLEXES,
+                    PREMATURE VENTRICULAR AND FUSION COMPLEXES]
+    quality: exact
+    covered_by: ["427172004"]
+  "164934002": {unsupported: T-wave abnormal is non-specific}
+  "59931005": {unsupported: only serial-comparison T-inversion statements exist in ECGFounder}
+  "164917005": {unsupported: Q-wave abnormal is non-specific}
